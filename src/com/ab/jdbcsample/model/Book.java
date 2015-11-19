@@ -42,7 +42,6 @@ public class Book implements Comparable<Book> {
 
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Book(String name, String author, Date date) {

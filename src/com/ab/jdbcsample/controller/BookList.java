@@ -12,10 +12,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.ab.jdbcsample.dao.BookDAO;
 import com.ab.jdbcsample.model.Book;
 
 public class BookList {
 	private static final String SEPARATOR = "\r\n";
+	private static final String DEFAULT_FILENAME = "books.txt";
 	private List<Book> books;
 
 	public BookList() {
@@ -37,6 +39,10 @@ public class BookList {
 	@Override
 	public String toString() {
 		return books.toString();
+	}
+
+	public void save() {
+		save(DEFAULT_FILENAME);
 	}
 
 	public void save(String filename) {
@@ -69,6 +75,10 @@ public class BookList {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void read() {
+		read(DEFAULT_FILENAME);
 	}
 
 	public void read(String filename) {
@@ -112,5 +122,16 @@ public class BookList {
 				return o1.getAuthor().compareToIgnoreCase(o2.getAuthor());
 			}
 		});
+	}
+
+	public void saveToDb() {
+		BookDAO.getInstance().deleteAll();
+		for (Book book : books) {
+			BookDAO.getInstance().insert(book);
+		}
+	}
+
+	public void loadFromDb() {
+		books.addAll(BookDAO.getInstance().selectAll());
 	}
 }

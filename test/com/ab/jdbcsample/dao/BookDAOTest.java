@@ -15,10 +15,10 @@ public class BookDAOTest {
 	public void testDao() {
 		BookDAO.getInstance().deleteAll();
 		assertEquals(0, BookDAO.getInstance().selectAll().size());
-		
-		Book b = new Book("test", "test", new Date());
+
+		Book b = new Book("abc", "bcd", new Date());
 		BookDAO.getInstance().insert(b);
-		
+
 		List<Book> books = BookDAO.getInstance().selectAll();
 		assertEquals(1, books.size());
 		assertEquals(b.getAuthor(), books.get(0).getAuthor());
@@ -26,7 +26,7 @@ public class BookDAOTest {
 		assertEquals(b.getDate(), books.get(0).getDate());
 		BookDAO.getInstance().delete(books.get(0));
 		assertEquals(0, BookDAO.getInstance().selectAll().size());
-		
+
 		BookDAO.getInstance().insert(b);
 		BookDAO.getInstance().deleteAll();
 		assertEquals(0, BookDAO.getInstance().selectAll().size());

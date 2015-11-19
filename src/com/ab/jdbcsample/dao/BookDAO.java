@@ -80,7 +80,7 @@ public class BookDAO {
 			Statement st = con.createStatement();
 			ResultSet result = st.executeQuery(SQL_SELECT);
 			while (result.next()) {
-				list.add(extractContact(result));
+				list.add(extractBook(result));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,24 +93,31 @@ public class BookDAO {
 
 	public Book select(int id) {
 		Connection con = null;
-		Book contact = null;
+		Book item = null;
 		try {
 			con = MySqlConnection.getConnection();
 			PreparedStatement st = con.prepareStatement(SQL_SELECT_BY_ID);
 			st.setInt(1, id);
 			ResultSet result = st.executeQuery();
 			if (result.next()) {
-				contact = extractContact(result);
+				item = extractBook(result);
 			}
-			return contact;
+			return item;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return contact;
+			return item;
 		} finally {
 			close(con);
 		}
 	}
 
+	/**
+	 * Method insert onject into database
+	 * 
+	 * @param item
+	 *            - the book will be inserted
+	 * @return true if successfully inserted
+	 */
 	public boolean insert(Book item) {
 		return insert(item.getName(), item.getAuthor(), item.getDate());
 	}
@@ -144,7 +151,7 @@ public class BookDAO {
 		}
 	}
 
-	private Book extractContact(ResultSet rs) throws SQLException {
+	private Book extractBook(ResultSet rs) throws SQLException {
 		Book item = new Book();
 		item.setId(rs.getLong(FIELD_ID));
 		item.setName(rs.getString(FIELD_NAME));
